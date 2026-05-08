@@ -1,0 +1,1529 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LuxeLoom – Premium Girls Fashion</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:wght@300;400;500&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="lastpro.css">
+</head>
+
+<body>
+  <div class="toast" id="toast"></div>
+  <div class="overlay-bg" id="overlayBg" onclick="closeCart()"></div>
+  <aside class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header">
+
+      <h3>🛍️ My Cart</h3>
+      <button onclick="closeCart()" style="background:none;border:none;cursor:pointer;font-size:1.3rem;">✕</button>
+    </div>
+
+    <div class="cart-body" id="cartBody">
+      <div class="cart-empty" id="cartEmpty">
+        <div class="cart-empty-icon">🛒</div>
+        <p>Your cart is empty.<br />Start shopping!</p>
+      </div>
+      <div id="cartItems"></div>
+    </div>
+    <div class="cart-footer" id="cartFooter" style="display:none">
+      <div class="cart-total"><span>Total</span><span id="cartTotal">₹0</span></div>
+      <button class="cart-checkout-btn" onclick="openCheckout()">Checkout ✨</button>
+    </div>
+  </aside>
+
+  <div class="modal-overlay" id="orderModal">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('orderModal')">✕</button>
+      <div id="orderForm">
+        <h2>Place Your Order ✨</h2>
+        <p class="modal-product-name" id="modalProductName"></p>
+        <label>Full Name</label><input type="text" id="custName" placeholder="Your beautiful name" />
+        <label>Phone Number</label><input type="tel" id="custPhone" placeholder="+91 XXXXX XXXXX" />
+        <label>Email Address</label><input type="email" id="custEmail" placeholder="your@email.com" />
+        <label>Delivery Address</label><input type="text" id="custAddr" placeholder="House no., Street, City" />
+        <div class="modal-row">
+          <div><label>Pincode</label><input type="text" id="custPin" placeholder="110001" /></div>
+          <div><label>Size</label><select id="custSize">
+              <option>XS</option>
+              <option>S</option>
+              <option selected>M</option>
+              <option>L</option>
+              <option>XL</option>
+              <option>Free Size</option>
+            </select></div>
+        </div>
+        <label>Payment Method</label>
+        <select id="custPay">
+          <option>UPI / GPay / PhonePe</option>
+          <option>Cash on Delivery</option>
+          <option>Credit / Debit Card</option>
+          <option>Net Banking</option>
+        </select>
+        <button class="modal-btn" onclick="placeOrder()">Place Order 🌸</button>
+      </div>
+      <div class="success-msg" id="successMsg">
+        <div class="check">🌸</div>
+        <h3>Order Placed!</h3>
+        <p>Thank you for shopping at <strong>LuxeLoom</strong>.<br />Your order arrives in 3-5 days! 💕</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="checkoutModal">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('checkoutModal')">✕</button>
+      <div id="checkoutForm">
+        <h2>Checkout ✨</h2>
+        <p class="modal-product-name" id="checkoutSummary"></p>
+        <label>Full Name</label><input type="text" id="chkName" placeholder="Your beautiful name" />
+        <label>Phone Number</label><input type="tel" id="chkPhone" placeholder="+91 XXXXX XXXXX" />
+        <label>Delivery Address</label><input type="text" id="chkAddr" placeholder="House no., Street, City, Pincode" />
+        <label>Payment Method</label>
+        <select id="chkPay">
+          <option>UPI / GPay / PhonePe</option>
+          <option>Cash on Delivery</option>
+          <option>Credit / Debit Card</option>
+        </select>
+        <button class="modal-btn" onclick="placeCheckoutOrder()">Confirm Order 🌸</button>
+      </div>
+      <div class="success-msg" id="checkoutSuccess">
+        w
+        <div id="result"></div>
+
+        <div class="check">✨</div>
+        <h3>Yay! Confirmed!</h3>
+        <p>Your LuxeLoom haul is on its way!<br />Delivery in 3-5 business days 💕</p>
+
+
+      </div>
+    </div>
+  </div>
+  <nav>
+    <a class="nav-logo" href="#top">Luxe<span>Loom</span></a>
+    <ul class="nav-links">
+      <li><a href="#accessories">Accessories</a></li>
+      <li><a href="#dresses">Dresses</a></li>
+      <li><a href="#bottoms">Bottoms</a></li>
+      <li><a href="#tops">Tops</a></li>
+      <li><a href="#charms">Charms</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+    </ul>
+    <div class="nav-icons">
+      <button onclick="openCart()" title="Cart">🛍️
+        <span class="cart-count" id="cartCountBadge" style="display:none">0</span>
+      </button>
+      <button id="fav-toggle">💖</button>
+      <!-- <button id="darkToggle">🌙</button> -->
+    </div>
+  </nav>
+  <div id="wishlistPanel" class="wishlist-panel">
+    <h3>Your Wishlist 💖</h3>
+    <ul id="wishlistItems"></ul>
+  </div>
+  <section class="hero" id="top">
+
+    <div class="hero-petals" id="heroPetals"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">✦ New Season, New You ✦</p>
+      <h1 class="hero-title">Fashion Woven<br />with <em>Luxury</em></h1>
+      <p class="hero-subtitle">Where every outfit tells your story.<br />Premium aesthetic styles from ₹999 — delivered
+        to your door.</p>
+      <a href="#offers" class="hero-btn">Shop the Collection</a>
+    </div>
+    <div class="hero-scroll">
+      <div class="scroll-line"></div><span>Scroll</span>
+    </div>
+  </section>
+
+  <div class="banner-strip">✨ Free Shipping above ₹2,500 &nbsp;|&nbsp; 🎀 New drops every week &nbsp;|&nbsp; 🌸 Easy
+    7-day returns &nbsp;|&nbsp; 💎 Buy 1 Get 1 Free on Accessories</div>
+
+  <div class="cat-strip">
+    <a href="#offers" class="cat-pill">🔥 Offers</a>
+    <a href="#accessories" class="cat-pill">💎 Accessories</a>
+    <a href="#dresses" class="cat-pill">👗 Dresses</a>
+    <a href="#bottoms" class="cat-pill">👖 Bottoms</a>
+    <a href="#tops" class="cat-pill">👚 Tops</a>
+    <a href="#charms" class="cat-pill">🎀 Charms</a>
+    <a href="#reviews" class="cat-pill">⭐ Reviews</a>
+  </div>
+  <!-- PROMOTIONAL POSTERS -->
+  <section id="offers" style="background:var(--cream);padding:60px 40px 40px;">
+    <div style="max-width:1200px;margin:0 auto;">
+      <div class="section-header">
+        <span class="section-tag">✦ Hot Deals ✦</span>
+        <h2 class="section-title">Special <em>Offers</em></h2>
+        <div class="section-divider"></div>
+      </div>
+      <div class="posters-row"
+        style="display:grid;grid-template-columns:1fr 1fr;gap:200px;margin-bottom:20px;height:443.2px;width:800px;">
+        <div class="poster-wrap">
+          <img
+            src="https://marketplace.canva.com/EAGNQOyYMRY/2/0/1280w/canva-pink-white-girly-dreamy-y2k-flash-sale-instagram-post-kzUWvMn8Xm8.jpg">
+          <div class="poster-btns">
+            <a href="#accessories"
+              style="background:var(--rose);color:white;padding:10px 22px;border-radius:50px;font-size:.75rem;letter-spacing:1.5px;text-transform:uppercase;font-weight:600;text-decoration:none;box-shadow:0 4px 14px rgba(232,130,154,.45);">Shop
+              Accessories →</a>
+          </div>
+        </div>
+        <div class="poster-wrap">
+          <img
+            src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQCcysq9fjcQ2xYI-qPMMp7j3PGXU0U9nyKG8hwJhZaNkRfqxkm">
+          <div class="poster-btns">
+            <a href="#tops"
+              style="background:var(--rose);color:white;padding:10px 20px;border-radius:50px;font-size:.73rem;letter-spacing:1.5px;text-transform:uppercase;font-weight:600;text-decoration:none;box-shadow:0 4px 14px rgba(232,130,154,.4);">Shop
+              Tops →</a>
+            <a href="#bottoms"
+              style="background:var(--gold);color:white;padding:10px 20px;border-radius:50px;font-size:.73rem;letter-spacing:1.5px;text-transform:uppercase;font-weight:600;text-decoration:none;box-shadow:0 4px 14px rgba(201,169,110,.4);">Shop
+              Jeans →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ACCESSORIES ===================== -->
+  <section id="accessories" class="product-section">
+    <div class="section-header">
+      <span class="section-tag">✦ Adorn Yourself ✦</span>
+      <h2 class="section-title">Accessories &amp; <em>Jewels</em></h2>
+      <div class="section-divider"></div>
+    </div>
+    <div class="products-grid">
+
+      <div class="product-card">
+        <div class="product-img-wrap">
+          <span class="product-badge">New</span>
+          <button class="wishlist-btn" onclick="toggleWishlist(this)">🤍</button>
+          <img src="https://img.joomcdn.net/73329279e48a6f2a2f0d768a3e7e20a42dc2cf1d_original.jpeg"
+            alt="Pearl Drop Earrings">
+        </div>
+        <div class="product-info">
+          <p class="product-name">Gold Hoop Earrings</p>
+          <p class="product-desc">Add a touch of timeless elegance to your look with these gold-tone U-shaped hoop
+            earrings. Featuring a smooth, polished finish and a modern oval silhouette, perfect for both casual and
+            formal occasions. </p>
+          <p class="product-price">₹999 <span>₹1,499</span></p>
+          <button class="wishlist-btn" data-name="Gold-Hoop-Earrings">🤍</button>
+          <div class="product-actions">
+            <button class="btn-cart"
+              onclick="addToCart(this,'Pearl Drop Earrings',999,'C:\\Users\\bajaj\\Downloads\\download (7).jpg')">Add to
+              Cart</button>
+            <button class="btn-buy" onclick="openOrder('Pearl Drop Earrings – ₹999')">Buy Now</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img-wrap">
+          <span class="product-badge gold">Trending</span>
+          <button class="wishlist-btn" onclick="toggleWishlist(this)">🤍</button>
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVWqZxK-9RBQfjHlNgRP8ik1OhlHaPB2L5qQ&s"
+            alt="Gold Layered Necklace">
+        </div>
+        <div class="product-info">
+          <p class="product-name"> Pink and Clear Beaded Necklace</p>
+          <p class="product-desc">Elegant and feminine, this necklace features a delicate mix of pink pearls, faceted
+            crystals, and heart-shaped beads on a silver-tone chain.Ideal for casual wear and special occasions.</p>
+          <p class="product-price">₹1,299 <span>₹1,899</span></p>
+          <div class="product-actions">
+            <button class="btn-cart"
+              onclick="addToCart(this,'Gold Layered Necklace',1299,'C:\\Users\\bajaj\\Downloads\\download (8).jpg')">Add
+              to Cart</button>
+            <button class="btn-buy" onclick="openOrder('Gold Layered Necklace – ₹1,299')">Buy Now</button>
+            <button class="wishlist-btn" data-name="Pink and Clear Beaded Necklace">🤍</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img-wrap">
+          <button class="wishlist-btn" onclick="toggleWishlist(this)">🤍</button>
+          <img src="https://twoate.com/cdn/shop/files/ffa2b2b306661fc7b859a4abf13504b6.jpg?v=1722850574&width=416"
+            alt="Rhinestone Hair Clip Set">
+        </div>
+        <div class="product-info">
+          <p class="product-name">Burgundy Patent Leather Slingback Heels</p>
+          <p class="product-desc">Elegant pointed-toe stiletto heels in glossy burgundy patent leather, featuring
+            delicate slingback straps with gold-tone ring accents.
+            A sophisticated design perfect for evening wear or formal occasions.</p>
+          <p class="product-price">₹699 <span>₹999</span></p>
+          <div class="product-actions">
+            <button class="btn-cart"
+              onclick="addToCart(this,'Rhinestone Hair Clip Set',699,'C:\\Users\\bajaj\\Downloads\\download (6).jpg')">Add
+              to Cart</button>
+            <button class="btn-buy" onclick="openOrder('Rhinestone Hair Clip Set – ₹699')">Buy Now</button>
+            <button class="wishlist-btn" data-name="Burgundy Patent Leather Slingback Heels">🤍</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img-wrap">
+          <span class="product-badge">Sale</span>
+          <button class="wishlist-btn" onclick="toggleWishlist(this)">🤍</button>
+          <img
+            src="https://www.thejewelbox.in/cdn/shop/files/CelestialSunburstCharmPendantGoldChainNecklace-TheJewelbox-1.png?v=1755710850&width=900"
+            alt="Minimalist Ring Set">
+        </div>
+        <div class="product-info">
+          <p class="product-name">Gold Sun Pendant Necklace</p>
+          <p class="product-desc">Elegant gold-toned necklace featuring a radiant sun-shaped pendant with a smooth
+            central stone. Perfect for adding a touch of celestial charm to any outfit.</p>
+          <p class="product-price">₹799 <span>₹1,199</span></p>
+          <div class="product-actions">
+            <button class="btn-cart"
+              onclick="addToCart(this,'Minimalist Ring Set',799,'C:\\Users\\bajaj\\Downloads\\download (9).jpg')">Add to
+              Cart</button>
+            <button class="btn-buy" onclick="openOrder('Minimalist Ring Set – ₹799')">Buy Now</button>
+            <button class="wishlist-btn" data-name="Gold Sun Pendant Necklace">🤍</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img-wrap">
+          <button class="wishlist-btn" onclick="toggleWishlist(this)">🤍</button>
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMHO0LAT3V6DP--e6a03A1TNpzg1G6F7WjLA&s"
+            alt="Butterfly Hair Band">
+        </div>
+        <div class="product-info">
+          <p class="product-name">Silver Chain Necklace with Blue flowers Pendant</p>
+          <p class="product-desc">A delicate silver chain necklace featuring a small oval blue gemstone pendant.Worn
+            with a blue top, it adds a touch of elegance and color.</p>
+          <p class="product-price">₹499 <span>₹799</span></p>
+          <div class="product-actions">
+            <button class="btn-cart"
+              onclick="addToCart(this,'Butterfly Hair Band',499,'C:\\Users\\bajaj\\Downloads\\download (9).jpg')">Add to
+              Cart</button>
+            <button class="btn-buy" onclick="openOrder('Butterfly Hair Band – ₹499')">Buy Now</button>
+            <button class="wishlist-btn" data-name="Silver Chain Necklace with Blue flowers Pendant">🤍</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img-wrap">
+          <span class="product-badge gold">Cute</span>
+          <button class="wishlist-btn" onclick="toggleWishlist(this)">🤍</button>
+          <img src="https://ae01.alicdn.com/kf/S0f8cd592a36f43959d06d50b4f2722aes.jpg" alt="Nail Art Kit – Pink Summer">
+        </div>
+        <div class="product-info">
+          <p class="product-name">Tropical Beach-Themed Press-On Nails</p>
+          <p class="product-desc">A vibrant set of press-on nails featuring tropical flowers, seashells, pearls, and
+            ocean-inspired colors. Perfect for a summer or beach vacation look.</p>
+          <p class="product-price">₹599 <span>₹899</span></p>
+          <div class="product-actions">
+            <button class="btn-cart"
+              onclick="addToCart(this,'Nail Art Kit Pink Summer',599,'C:\\Users\\bajaj\\Downloads\\Pink summer almond nails.jpg')">Add
+              to Cart</button>
+            <button class="btn-buy" onclick="openOrder('Nail Art Kit – Pink Summer – ₹599')">Buy Now</button>
+            <button class="wishlist-btn" data-name="Tropical Beach-Themed Press-On Nails">🤍</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img-wrap">
+          <button class="wishlist-btn" onclick="toggleWishlist(this)">🤍</button>
+          <img src="https://i.pinimg.com/736x/96/97/5f/96975fd095f2bd06a8a32e8a5c9a63de.jpg" alt="Floral Stud Earrings">
+        </div>
+        <div class="product-info">
+          <p class="product-name">vintage-style rectangle sunglasses</p>
+          <p class="product-desc">intage-style rectangle sunglasses featuring a thick, retro-inspired frame. The pair on
+            top has a translucent sage green finish with dark tinted lenses, while the pair underneath is a classic
+            solid black. They offer a sleek, "90s aesthetic" that is currently very trendy for casual or streetwear
+            looks.
+          <div class="product-actions">
+            <button class="btn-cart"
+              onclick="addToCart(this,'Floral Stud Earrings',849,'C:\\Users\\bajaj\\Downloads\\Radiant Floral Symphony_ A Purple Delight.jpg')">Add
+              to Cart</button>
+            <button class="btn-buy" onclick="openOrder('Floral Stud Earrings – ₹849')">Buy Now</button>
+            <button class="wishlist-btn" data-name="vintage-style rectangle sunglasses">🤍</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img-wrap">
+          <span class="product-badge gold">Luxury</span>
+          <button class="wishlist-btn" onclick="toggleWishlist(this)">🤍</button>
+          <img src="https://i.etsystatic.com/30711454/r/il/9af1b9/6395287344/il_fullxfull.6395287344_alkp.jpg"
+            alt="Vintage Classy Watch">
+        </div>
+        <div class="product-info">
+          <p class="product-name">Vintage Classy Watch</p>
+          <p class="product-desc">Timeless vintage-inspired women's watch with a rose gold case and cream dial. Elegant
+            mesh strap with an adjustable clasp. A must-have luxury accessory.</p>
+          <p class="product-price">₹2,499 <span>₹3,499</span></p>
+          <div class="product-actions">
+            <button class="btn-cart"
+              onclick="addToCart(this,'Vintage Classy Watch',2499,'C:\\Users\\bajaj\\Downloads\\Vintage Classy Watch.jpg')">Add
+              to Cart</button>
+            <button class="btn-buy" onclick="openOrder('Vintage Classy Watch – ₹2,499')">Buy Now</button>
+            <button class="wishlist-btn" data-name="Vintage Classy Watch">🤍</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================== DRESSES ===================== -->
+  <section id="dresses" class="bg-blush" style="padding:var(--gap) 0;">
+    <div class="product-section" style="padding-top:0;padding-bottom:0;">
+      <div class="section-header" style="padding-top:var(--gap);">
+        <span class="section-tag">✦ Dress to Impress ✦</span>
+        <h2 class="section-title">Dresses &amp; <em>Gowns</em></h2>
+        <div class="section-divider"></div>
+      </div>
+      <div class="products-grid" style="padding-bottom:var(--gap);">
+
+        <div class="product-card">
+          <div class="product-img-wrap">
+            <span class="product-badge">New</span>
+            <button class="wishlist-btn" onclick="toggleWishlist(this)">🤍</button>
+            <img
+              src="https://img.ltwebstatic.com/images3_pi/2025/04/01/ee/174349215827773a705ab185390577bab0e3540bb5_thumbnail_750x999.webp"
+              alt="Floral Wrap Dress">
+          </div>
+          <div class="product-info">
+            <p class="product-name">Floral Wrap Dress</p>
+            <p class="product-desc">Flattering wrap-style dress with a beautiful floral print. Features a flowy midi
+              length and adjustable tie waist. Great for dates, brunch or casual days out.</p>
+            <p class="product-price">₹1,699 <span>₹2,499</span></p>
+            <div class="product-actions">
+              <button class="btn-cart"
+                onclick="addToCart(this,'Floral Wrap Dress',1699,'C:\\Users\\bajaj\\Downloads\\download (12).jpg')">Add
+                to Cart</button>
+              <button class="btn-buy" onclick="openOrder('Floral Wrap Dress – ₹1,699')">Buy Now</button>
+              <button class="wishlist-btn" data-name="Floral Wrap Dress">🤍 </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-img-wrap">
+            <span class="product-badge gold">Bestseller</span>
+            <button class="wishlist-btn" onclick="toggleWishlist(this)">🤍</button>
+            <img src="https://i.pinimg.com/236x/6a/dc/c8/6adcc883d670e746c741a2853c8480b5.jpg" alt="Satin Evening Gown">
+          </div>
+          <div class="product-info">
+            <p class="product-name">Satin Evening Gownnn</p>
+            <p class="product-desc">Luxurious satin evening gown with an elegant silhouette and spaghetti straps.
+              Floor-length design with a subtle side slit. Perfect for proms or formal events.</p>
+            <p class="product-price">₹3,299 <span>₹4,999</span></p>
+            <div class="product-actions">
+              <button class="btn-cart"
+                onclick="addToCart(this,'Satin Evening Gown',3299,'C:\\Users\\bajaj\\Downloads\\download (13).jpg')">Add
+                to Cart</button>
+              <button class="btn-buy" onclick="openOrder('Satin Evening Gown – ₹3,299')">Buy Now</button>
+              <button class="wishlist-btn" data-name="Satin Evening Gownnn">🤍</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-img-wrap">
+            <button class="wishlist-btn" onclick="toggleWishlist(this)">🤍</button>
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRu3-3QTR5DVNmIZNQ5HUFh0dA3Rr96As9pvHMBY-L1x3p-3-Id"
+              alt="Boho Maxi Dress">
+          </div>
+          <div class="product-info">
+            <p class="product-name">Boho Maxi Dress</p>
+            <p class="product-desc">Breezy boho-style maxi dress in lightweight fabric with a smocked bodice and flowing
+              skirt. Ideal for summer outings, beach trips or festive occasions.</p>
+            <p class="product-price">₹1,999 <span>₹2,799</span></p>
+            <div class="product-actions">
+              <button class="btn-cart"
+                onclick="addToCart(this,'Boho Maxi Dress',1999,'C:\\Users\\bajaj\\Downloads\\maxy dress.jpg')">Add to
+                Cart</button>
+              <button class="btn-buy" onclick="openOrder('Boho Maxi Dress – ₹1,999')">Buy Now</button>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-img-wrap">
+            <span class="product-badge">Cute</span>
+            <button class="wishlist-btn" onclick="toggleWishlist(this)">🤍</button>
+            <img src="https://i.pinimg.com/736x/12/d4/52/12d4528dae9ef442b00f7db8ce5613a8.jpg"
+              alt="Pink Fantasy Mini Dress">
+          </div>
+          <div class="product-info">
+            <p class="product-name">Pink Fantasy Mini Dress</p>
+            <p class="product-desc">Adorable pink chiffon mini dress with floral appliqué detailing. Soft, lightweight
+              fabric with a cinched waist. Perfect for birthdays, homecoming or parties.</p>
+            <p class="product-price">₹2,199 <span>₹3,199</span></p>
+            <div class="product-actions">
+              <button class="btn-cart"
+                onclick="addToCart(this,'Pink Fantasy Mini Dress',2199,'C:\\Users\\bajaj\\Downloads\\Pink Cute Fantasy Floral Short Chiffon Mini Homecoming Dress Women Bir.jpg')">Add
+                to Cart</button>
+              <button class="btn-buy" onclick="openOrder('Pink Fantasy Mini Dress – ₹2,199')">Buy Now</button>
+              <button class="wishlist-btn" data-name="Pink Fantasy Mini Dress">🤍 </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-img-wrap">
+            <span class="product-badge gold">Baddie</span>
+            <button class="wishlist-btn" onclick="toggleWishlist(this)">🤍</button>
+            <img src="https://lazostore.in/cdn/shop/files/63EDA7B6-340A-4267-8CDF-10ED907D0EF9.jpg?v=1752496229">
+          </div>
+          <div class="product-info">
+            <p class="product-name">Cottagecore-style Midi Dress.</p>
+            <p class="product-desc">Sleek and sexy bodycon dress that hugs all the right curves. Form-fitting silhouette
+              in stretch fabric. A go-to baddie look for nights out or special events in 2024.</p>
+            <p class="product-price">₹1,799 <span>₹2,499</span></p>
+            <div class="product-actions">
+              <button class="btn-cart"
+                onclick="addToCart(this,'Baddie Bodycon Dress',1799,'C:\\Users\\bajaj\\Downloads\\Having trouble finding something attractive to wear this year_ If so, check out these 10 gorgeous baddie looks you should try in 2024!.jpg')">Add
+                to Cart</button>
+              <button class="btn-buy" onclick="openOrder('Baddie Bodycon Dress – ₹1,799')">Buy Now</button>
+              <button class="wishlist-btn" data-name="Cottagecore-style Midi Dress">🤍</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-img-wrap">
+            <button class="wishlist-btn" onclick="toggleWishlist(this)">🤍</button>
+            <img
+              src="https://d12hzjwrv4lm49.cloudfront.net/sites/files/chello/images/products/202512/1500xAUTO/zelie_padded_asymmetrical_mini_dress_in_cream_polka_1.jpg"
+              alt="White Aesthetic Dress">
+          </div>
+          <div class="product-info">
+            <p class="product-name">White PolkaDot Dress</p>
+            <p class="product-desc">Clean, minimal white dress with a cottagecore-meets-aesthetic vibe. Soft cotton
+              blend with puff sleeves and a relaxed fit. Effortlessly chic for any occasion.</p>
+            <p class="product-price">₹1,599 <span>₹2,199</span></p>
+            <div class="product-actions">
+              <button class="btn-cart"
+                onclick="addToCart(this,'White Aesthetic Dress',1599,'C:\\Users\\bajaj\\Downloads\\White dress aesthetic.jpg')">Add
+                to Cart</button>
+              <button class="btn-buy" onclick="openOrder('White Aesthetic Dress – ₹1,599')">Buy Now</button>
+              <button class="wishlist-btn" data-name="White PolkaDot Dress">🤍</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-img-wrap">
+            <span class="product-badge">New</span>
+            <button class="wishlist-btn" onclick="toggleWishlist(this)">🤍</button>
+            <img src="https://i.pinimg.com/236x/76/48/ff/7648ffcff080b17b71dff8a33f0f37e8.jpg"
+              alt="Ruffle Hem Sundress">
+          </div>
+          <div class="product-info">
+            <p class="product-name">Ruffle Hem Sundress</p>
+            <p class="product-desc">Sweet and feminine sundress with a pretty ruffle hem and adjustable shoulder straps.
+              Breathable fabric in a soft pastel print — great for sunny days and vacations.</p>
+            <p class="product-price">₹1,399 <span>₹1,999</span></p>
+            <div class="product-actions">
+              <button class="btn-cart"
+                onclick="addToCart(this,'Ruffle Hem Sundress',1399,'C:\\Users\\bajaj\\Downloads\\download (11).jpg')">Add
+                to Cart</button>
+              <button class="btn-buy" onclick="openOrder('Ruffle Hem Sundress – ₹1,399')">Buy Now</button>
+              <button class="wishlist-btn" data-name="Ruffle Hem Sundress">🤍 </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-img-wrap">
+            <span class="product-badge gold">Party</span>
+            <button class="wishlist-btn" onclick="toggleWishlist(this)">🤍</button>
+            <img src="https://i.pinimg.com/236x/ca/e8/9a/cae89a2744c76c6a01dbce3f7fdecd25.jpg" alt="Sequin Party Dress">
+          </div>
+          <div class="product-info">
+            <p class="product-name">Satin Party Dress</p>
+            <p class="product-desc">Dazzling sequin party dress that catches every light in the room. Mini length with a
+              flattering A-line silhouette. Be the centre of attention at every celebration!</p>
+            <p class="product-price">₹2,799 <span>₹3,999</span></p>
+            <div class="product-actions">
+              <button class="btn-cart"
+                onclick="addToCart(this,'Sequin Party Dress',2799,'C:\\Users\\bajaj\\Downloads\\download (14).jpg')">Add
+                to Cart</button>
+              <button class="btn-buy" onclick="openOrder('Sequin Party Dress – ₹2,799')">Buy Now</button>
+              <button class="wishlist-btn" data-name="Sequin Party Dress">🤍</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BOTTOMS ===================== -->
+  <section id="bottoms" class="bg-dark" style="padding:var(--gap) 40px;">
+    <div style="max-width:1200px;margin:0 auto;">
+      <div class="section-header">
+        <span class="section-tag">✦ Bottoms Up ✦</span>
+        <h2 class="section-title">Jeans &amp; <em>Pants</em></h2>
+        <div class="section-divider"></div>
+      </div>
+      <div class="products-grid">
+
+        <div class="product-card">
+          <div class="product-img-wrap">
+            <span class="product-badge">Classic</span>
+            <button class="wishlist-btn" onclick="toggleWishlist(this)">🤍</button>
+            <img
+              src="https://img.kwcdn.com/product/open/fa4b82f2945a4e67a1807fa06b74ed5d-goods.jpeg?imageMogr2/auto-orient%7CimageView2/2/w/800/q/70/format/webp"
+              alt="High Waist Skinny Jeans">
+          </div>
+          <div class="product-info">
+            <p class="product-name">comfortable shorts</p>
+            <p class="product-desc">Timeless high-waist skinny jeans in a classic medium blue wash. Stretchy denim blend
+              for all-day comfort. A wardrobe staple that goes with everything.</p>
+            <p class="product-price">₹1,499 <span>₹2,199</span></p>
+            <div class="product-actions">
+              <button class="btn-cart"
+                onclick="addToCart(this,'High Waist Skinny Jeans',1499,'C:\\Users\\bajaj\\Downloads\\download.jpg')">Add
+                to Cart</button>
+              <button class="btn-buy" onclick="openOrder('High Waist Skinny Jeans – ₹1,499')">Buy Now</button>
+              <button class="wishlist-btn" data-name="High Waist Skinny Jeans">🤍</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-img-wrap">
+            <span class="product-badge gold">Trendy</span>
+            <button class="wishlist-btn" onclick="toggleWishlist(this)">🤍</button>
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSOmZ5T00FBh8NnMeiNUcseEGHiPZI4GQ92JVwqi9uuP3_8Gqj">
+          </div>
+          <div class="product-info">
+            <p class="product-name">Plaid Print Casual Pants</p>
+            <p class="product-desc">Super trendy plaid print pants perfect for school, campus or hanging out with
+              friends. Loose relaxed fit with an elastic waist. A must-have for the autumn wardrobe.</p>
+            <p class="product-price">₹1,299 <span>₹1,799</span></p>
+            <div class="product-actions">
+              <button class="btn-cart"
+                onclick="addToCart(this,'Plaid Print Casual Pants',1299,'C:\\Users\\bajaj\\Downloads\\Teen Girls Plaid Print Casual Pants, Suitable For Daily, Commuting, School Campus, Hanging Out - Autumn.jpg')">Add
+                to Cart</button>
+              <button class="btn-buy" onclick="openOrder('Plaid Print Casual Pants – ₹1,299')">Buy Now</button>
+              <button class="wishlist-btn" data-name="Plaid Print Casual Pants">🤍 </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-img-wrap">
+            <button class="wishlist-btn" onclick="toggleWishlist(this)">🤍</button>
+            <img src="https://img.kwcdn.com/thumbnail/s/0aefe849467c52a4917d0ea01c94a8c8_f6d413272f94.jpg"
+              alt="Straight Leg Denim">
+          </div>
+          <div class="product-info">
+            <p class="product-name">Ribbon-Tie Wide Leg Sweatpants</p>
+            <p class="product-desc">Clean and flattering straight-leg jeans in a light wash. Mid-rise fit with 5-pocket
+              detailing. Versatile denim that works for casual and dressed-up looks alike.</p>
+            <p class="product-price">₹1,599 <span>₹2,299</span></p>
+            <div class="product-actions">
+              <button class="btn-cart"
+                onclick="addToCart(this,'Straight Leg Denim',1599,'C:\\Users\\bajaj\\Downloads\\download (2).jpg')">Add
+                to Cart</button>
+              <button class="btn-buy" onclick="openOrder('Straight Leg Denim – ₹1,599')">Buy Now</button>
+              <button class="wishlist-btn" data-name="Straight Leg Denim">🤍</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-img-wrap">
+            <span class="product-badge">Designer</span>
+            <button class="wishlist-btn" onclick="toggleWishlist(this)">🤍</button>
+            <img
+              src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQmB8DZK_-PBipivzx0IxmHc1Zee81_VeRJAxc0Zw8gWlf3fBiZ"
+              alt="Bell-Bottom Jeans">
+          </div>
+          <div class="product-info">
+            <p class="product-name">Bell-Bottom Jeans</p>
+            <p class="product-desc">70s-inspired designer bell-bottom jeans with a dramatic flare. High-rise fit with a
+              subtle distressed finish. Pair with a crop top for the ultimate retro-glam look.</p>
+            <p class="product-price">₹1,899 <span>₹2,699</span></p>
+            <div class="product-actions">
+              <button class="btn-cart"
+                onclick="addToCart(this,'Bell-Bottom Jeans',1899,'C:\\Users\\bajaj\\Downloads\\Designer Bell-Bottom Jeans for Women.jpg')">Add
+                to Cart</button>
+              <button class="btn-buy" onclick="openOrder('Bell-Bottom Jeans – ₹1,899')">Buy Now</button>
+              <button class="wishlist-btn" data-name="Bell-Bottom Jeans">🤍 </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-img-wrap">
+            <span class="product-badge gold">Y2K</span>
+            <button class="wishlist-btn" onclick="toggleWishlist(this)">🤍</button>
+            <img src="https://s.alicdn.com/@sc04/kf/A45915656e6e14ab6b23704510ccf134do.jpg_720x720q50.jpg"
+              alt="Y2K Baggy Cargo Jeans">
+          </div>
+          <div class="product-info">
+            <p class="product-name">Y2K Baggy Cargo Jeans</p>
+            <p class="product-desc">Harajuku-inspired grey cargo jeans in an oversized 90s Y2K style. Features multiple
+              cargo pockets and a relaxed drop-crotch silhouette. The ultimate streetwear statement.</p>
+            <p class="product-price">₹1,999 <span>₹2,799</span></p>
+            <div class="product-actions">
+              <button class="btn-cart"
+                onclick="addToCart(this,'Y2K Baggy Cargo Jeans',1999,'C:\\Users\\bajaj\\Downloads\\Women Grey Cargo Jeans Harajuku 90s Vintage Y2k Baggy Denim Trouser Oversize Japanese 2000s Style.jpg')">Add
+                to Cart</button>
+              <button class="btn-buy" onclick="openOrder('Y2K Baggy Cargo Jeans – ₹1,999')">Buy Now</button>
+              <button class="wishlist-btn" data-name="Y2K Baggy Cargo Jeans ">🤍</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-img-wrap">
+            <button class="wishlist-btn" onclick="toggleWishlist(this)">🤍</button>
+            <img src="https://lachicpick.in/wp-content/uploads/2024/01/1110-1.png" alt="Ribbed Pleated Trousers">
+          </div>
+          <div class="product-info">
+            <p class="product-name">Fold-Over Flare Leggings</p>
+            <p class="product-desc">High-waist ribbed knit trousers with elegant pleated detailing and a tunnel
+              drawstring. Sleek and sophisticated — great for school, commuting or casual smart looks.</p>
+            <p class="product-price">₹1,199 <span>₹1,699</span></p>
+            <div class="product-actions">
+              <button class="btn-cart"
+                onclick="addToCart(this,'Ribbed Pleated Trousers',1199,'C:\\Users\\bajaj\\Downloads\\Calças Plissadas De Cintura Alta Com Dobra Vincada De Malha Com Costela Tunnel Para Adolescentes.jpg')">Add
+                to Cart</button>
+              <button class="btn-buy" onclick="openOrder('Ribbed Pleated Trousers – ₹1,199')">Buy Now</button>
+              <button class="wishlist-btn" data-name="Ribbed Pleated Trousers">🤍</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-img-wrap">
+            <span class="product-badge">Floral</span>
+            <button class="wishlist-btn" onclick="toggleWishlist(this)">🤍</button>
+            <img
+              src="https://img.ltwebstatic.com/images3_pi/2023/06/23/1687489765e8d4e5b68fba14b65fddf5eb0a2a1f68_thumbnail_750x999.webp"
+              alt="Floral Slit Skirt">
+          </div>
+          <div class="product-info">
+            <p class="product-name">Floral Slit Skirt</p>
+            <p class="product-desc">Gorgeous floral print midi skirt with a flattering drawstring waist and side slit.
+              Lightweight and flowy — perfect for warm days, picnics or casual outings.</p>
+            <p class="product-price">₹999 <span>₹1,499</span></p>
+            <div class="product-actions">
+              <button class="btn-cart"
+                onclick="addToCart(this,'Floral Slit Skirt',999,'C:\\Users\\bajaj\\Downloads\\SHEIN WYWH Plus Size Floral Print Drawstring Slit Skirt.jpg')">Add
+                to Cart</button>
+              <button class="btn-buy" onclick="openOrder('Floral Slit Skirt – ₹999')">Buy Now</button>
+              <button class="wishlist-btn" data-name="Floral Slit Skirt">🤍</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-img-wrap">
+            <button class="wishlist-btn" onclick="toggleWishlist(this)">🤍</button>
+            <img src="https://m.media-amazon.com/images/I/714HMKieLnL._AC_UY1000_.jpg">
+          </div>
+          <div class="product-info">
+            <p class="product-name">Wide Leg Palazzo Pants</p>
+            <p class="product-desc">Flowy wide-leg palazzo pants in a solid neutral tone. Elastic waistband for maximum
+              comfort. Elegant and breezy — style with a tucked-in blouse for a chic look.</p>
+            <p class="product-price">₹1,099 <span>₹1,599</span></p>
+            <div class="product-actions">
+              <button class="btn-cart"
+                onclick="addToCart(this,'Wide Leg Palazzo Pants',1099,'C:\\Users\\bajaj\\Downloads\\download (1).jpg')">Add
+                to Cart</button>
+              <button class="btn-buy" onclick="openOrder('Wide Leg Palazzo Pants – ₹1,099')">Buy Now</button>
+              <button class="wishlist-btn" data-name="Wide Leg Palazzo Pants">🤍</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== TOPS ===================== -->
+  <section id="tops" class="bg-lavender" style="padding:var(--gap) 40px;">
+    <div style="max-width:1200px;margin:0 auto;">
+      <div class="section-header">
+        <span class="section-tag">✦ Top of the World ✦</span>
+        <h2 class="section-title">Tops &amp; <em>Blouses</em></h2>
+        <div class="section-divider"></div>
+      </div>
+      <div class="products-grid">
+
+        <div class="product-card">
+          <div class="product-img-wrap">
+            <span class="product-badge">New</span>
+            <button class="wishlist-btn" onclick="toggleWishlist(this)">🤍</button>
+            <img
+              src="https://ariembroiderystudio.com/cdn/shop/files/C0E8A61D-A0E5-41F5-B78C-1CB241DFF254.jpg?v=1715944368"
+              alt="Lace Trim Crop Top">
+          </div>
+          <div class="product-info">
+            <p class="product-name">Ruched Tie-Strap Crop Top.</p>
+            <p class="product-desc">Delicate lace-trim crop top in soft pastel shades. Fitted silhouette with a
+              flattering hemline. Pairs perfectly with high-waist jeans or skirts for a cute everyday look.</p>
+            <p class="product-price">₹899 <span>₹1,299</span></p>
+            <div class="product-actions">
+              <button class="btn-cart"
+                onclick="addToCart(this,'Lace Trim Crop Top',899,'C:\\Users\\bajaj\\Downloads\\download (16).jpg')">Add
+                to Cart</button>
+              <button class="btn-buy" onclick="openOrder('Lace Trim Crop Top – ₹899')">Buy Now</button>
+              <button class="wishlist-btn" data-name="Lace Trim Crop Top">🤍</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-img-wrap">
+            <span class="product-badge gold">Y2K</span>
+            <button class="wishlist-btn" onclick="toggleWishlist(this)">🤍</button>
+            <img src="https://i.pinimg.com/236x/a8/ac/5f/a8ac5f591c49cffa7a09d292a1bc5be9.jpg" alt="Y2K Butterfly Top">
+          </div>
+          <div class="product-info">
+            <p class="product-name">Boho Paisley Bell-Sleeve Tunic</p>
+            <p class="product-desc">It has a V-neckline and dramatic "flare" or "bell" sleeves with a 70s-inspired
+              paisley print. </p>
+            <p class="product-price">₹799 <span>₹1,199</span></p>
+            <div class="product-actions">
+              <button class="btn-cart"
+                onclick="addToCart(this,'Y2K Butterfly Top',799,'C:\\Users\\bajaj\\Downloads\\Y2K fashion💋🌸.jpg')">Add
+                to Cart</button>
+              <button class="btn-buy" onclick="openOrder('Y2K Butterfly Top – ₹799')">Buy Now</button>
+              <button class="wishlist-btn" data-name="Y2K Butterfly Top">🤍</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-img-wrap">
+            <button class="wishlist-btn" onclick="toggleWishlist(this)">🤍</button>
+            <img
+              src="https://images.urbndata.com/is/image/Anthropologie/4110464030088_015_e3?$a15-pdp-detail-shot$&fit=constrain&qlt=80&wid=640"
+              alt="Off-Shoulder Ruffle Blouse">
+          </div>
+          <div class="product-info">
+            <p class="product-name">Off-Shoulder Ruffle Blouse</p>
+            <p class="product-desc">Romantic off-shoulder blouse with delicate ruffle detailing. Lightweight fabric that
+              drapes beautifully. A feminine and effortlessly stylish top for any occasion.</p>
+            <p class="product-price">₹1,099 <span>₹1,599</span></p>
+            <div class="product-actions">
+              <button class="btn-cart"
+                onclick="addToCart(this,'Off-Shoulder Ruffle Blouse',1099,'C:\\Users\\bajaj\\Downloads\\download (15).jpg')">Add
+                to Cart</button>
+              <button class="btn-buy" onclick="openOrder('Off-Shoulder Ruffle Blouse – ₹1,099')">Buy Now</button>
+              <button class="wishlist-btn" data-name="Off-Shoulder Ruffle Blouse">🤍</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-img-wrap">
+            <span class="product-badge">Corset</span>
+            <button class="wishlist-btn" onclick="toggleWishlist(this)">🤍</button>
+            <img
+              src="https://img.ltwebstatic.com/v4/j/pi/2026/01/01/5f/176719692237d87a2aa75fbd3eb28d034f620453d7_thumbnail_750x999.webp"
+              alt="Corset Shirt Top">
+          </div>
+          <div class="product-info">
+            <p class="product-name">Corset Shirt Top</p>
+            <p class="product-desc">Chest-flattering corset-style shirt top with lace-up detailing and a boned
+              structure. Combines comfort with drama — wear it out or tuck it into high-waist bottoms.</p>
+            <p class="product-price">₹1,299 <span>₹1,899</span></p>
+            <div class="product-actions">
+              <button class="btn-cart"
+                onclick="addToCart(this,'Corset Shirt Top',1299,'C:\\Users\\bajaj\\Downloads\\Chest Flattering Corset Shirt Top.jpg')">Add
+                to Cart</button>
+              <button class="btn-buy" onclick="openOrder('Corset Shirt Top – ₹1,299')">Buy Now</button>
+              <button class="wishlist-btn" data-name="Corset Shirt Top">🤍</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-img-wrap">
+            <span class="product-badge gold">Crochet</span>
+            <button class="wishlist-btn" onclick="toggleWishlist(this)">🤍</button>
+            <img
+              src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTampnlg4T_ndoDllzWsG0S8QI9twA2mNNACzEUicQ0Ijw_dYAr"
+              alt="Crochet Knit Top">
+          </div>
+          <div class="product-info">
+            <p class="product-name">Crochet Knit Top</p>
+            <p class="product-desc">Handcrafted-style crochet knit crop top with an open-weave pattern. Perfect as a
+              beach cover-up or layered over a bralette. A boho-chic favourite for summer.</p>
+            <p class="product-price">₹1,199 <span>₹1,699</span></p>
+            <div class="product-actions">
+              <button class="btn-cart"
+                onclick="addToCart(this,'Crochet Knit Top',1199,'C:\\Users\\bajaj\\Downloads\\EmmaRoseDesign (@byemmarosedesign) • Instagram.jpg')">Add
+                to Cart</button>
+              <button class="btn-buy" onclick="openOrder('Crochet Knit Top – ₹1,199')">Buy Now</button>
+              <button class="wishlist-btn" data-name="Crochet Knit Top">🤍</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-img-wrap">
+            <button class="wishlist-btn" onclick="toggleWishlist(this)">🤍</button>
+            <img
+              src="https://img.ltwebstatic.com/v4/j/pi/2025/07/07/4d/175185224763228880ef291980328c7fcf5aac7e6c_thumbnail_405x552.jpg"
+              alt="Bow Lotus Hem Tank Top">
+          </div>
+          <div class="product-info">
+            <p class="product-name">Bow Lotus Hem Tank Top</p>
+            <p class="product-desc">Adorable pleated tank top with a pretty bow and lotus leaf hem detail. Available in
+              soft pink and navy blue. Lightweight and breathable — the cutest summer essential.</p>
+            <p class="product-price">₹749 <span>₹1,099</span></p>
+            <div class="product-actions">
+              <button class="btn-cart"
+                onclick="addToCart(this,'Bow Lotus Hem Tank Top',749,'C:\\Users\\bajaj\\Downloads\\Women\'s Summer Cute Solid Color Pleated Fabric Pink Tank Top Navy Blue Tank Top Petite Bow Lotus Leaf Hem Women\'s Vest Tank Top.jpg')">Add
+                to Cart</button>
+              <button class="btn-buy" onclick="openOrder('Bow Lotus Hem Tank Top – ₹749')">Buy Now</button>
+              <button class="wishlist-btn" data-name="Bow Lotus Hem Tank Top">🤍</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-img-wrap">
+            <span class="product-badge gold">Y2K</span>
+            <button class="wishlist-btn" onclick="toggleWishlist(this)">🤍</button>
+            <img
+              src="https://img.kwcdn.com/product/fancy/8d7c1070-36bd-40a6-94c9-c854c64dfcac.jpg?imageMogr2/auto-orient%7CimageView2/2/w/800/q/70/format/webp"
+              alt="Y2K Butterfly Top">
+          </div>
+          <div class="product-info">
+            <p class="product-name">Graphic Tee</p>
+            <p class="product-desc">Iconic Y2K inspired butterfly print top with a fitted crop cut. Bold and playful
+              with bright colours — the perfect nostalgic throwback to early 2000s fashion.</p>
+            <p class="product-price">₹799 <span>₹1,199</span></p>
+            <div class="product-actions">
+              <button class="btn-cart"
+                onclick="addToCart(this,'Y2K Butterfly Top',799,'C:\\Users\\bajaj\\Downloads\\Y2K fashion💋🌸.jpg')">Add
+                to Cart</button>
+              <button class="btn-buy" onclick="openOrder('Y2K Butterfly Top – ₹799')">Buy Now</button>
+              <button class="wishlist-btn" data-name="Y2K Butterfly Top">🤍 </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-img-wrap">
+            <span class="product-badge gold">Y2K</span>
+            <button class="wishlist-btn" onclick="toggleWishlist(this)">🤍</button>
+            <img src="https://i.pinimg.com/236x/64/11/c5/6411c594f76204badbf88ad7b833ac4e.jpg" alt="Y2K Butterfly Top">
+          </div>
+          <div class="product-info">
+            <p class="product-name">Ribbed Drawstring Crop Top</p>
+            <p class="product-desc">Iconic Y2K inspired butterfly print top with a fitted crop cut. Bold and playful
+              with bright colours — the perfect nostalgic throwback to early 2000s fashion.</p>
+            <p class="product-price">₹799 <span>₹1,199</span></p>
+            <div class="product-actions">
+              <button class="btn-cart"
+                onclick="addToCart(this,'Y2K Butterfly Top',799,'C:\\Users\\bajaj\\Downloads\\Y2K fashion💋🌸.jpg')">Add
+                to Cart</button>
+              <button class="btn-buy" onclick="openOrder('Y2K Butterfly Top – ₹799')">Buy Now</button>
+              <button class="wishlist-btn" data-name="Y2K Butterfly Top">🤍</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CHARMS =====================-->
+  <section id="charms" class="bg-mint" style="padding:var(--gap) 40px;">
+    <div style="max-width:1200px;margin:0 auto;">
+      <div class="section-header">
+        <span class="section-tag">✦ Carry the Cuteness ✦</span>
+        <h2 class="section-title">Keychains &amp; <em> Mobile Charms</em></h2>
+        <div class="section-divider"></div>
+      </div>
+      <div class="charm-grid">
+
+        <div class="product-card">
+          <div class="product-img-wrap" style="aspect-ratio:1;">
+            <span class="product-badge">New</span>
+            <button class="wishlist-btn" onclick="toggleWishlist(this)">🤍</button>
+            <img
+              src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTy8jMeuIIsSX7SYbIeILkliOVKzyeoe0MArl9bvBg8JWBfYaVT"
+              alt="Cute Plush Keychain">
+          </div>
+          <div class="product-info">
+            <p class="product-name">Cute Plush Keychain</p>
+            <p class="product-desc">Soft and squishy plush character keychain that clips onto your bag or keys. Super
+              adorable and giftable — a charm that makes everyone smile.</p>
+            <p class="product-price">₹399 <span>₹599</span></p>
+            <div class="product-actions">
+              <button class="btn-cart"
+                onclick="addToCart(this,'Cute Plush Keychain',399,'C:\\Users\\bajaj\\Downloads\\download (19).jpg')">Add
+                to Cart</button>
+              <button class="btn-buy" onclick="openOrder('Cute Plush Keychain – ₹399')">Buy Now</button>
+              <button class="wishlist-btn" data-name="Cute Plush Keychain">🤍</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-img-wrap" style="aspect-ratio:1;">
+            <span class="product-badge gold">Elegant</span>
+            <button class="wishlist-btn" onclick="toggleWishlist(this)">🤍</button>
+            <img
+              src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRncejjyMB7kz0hFSoNxv-_Yemx1bs06kvknORTGoPNhJeZ7QFi"
+              alt="Pearl Starfish Bracelet">
+          </div>
+          <div class="product-info">
+            <p class="product-name">Pearl Starfish Bracelet</p>
+            <p class="product-desc">Elegant ocean-inspired bracelet with pearl and starfish charms. Perfect for beach
+              outfits and coastal aesthetic lovers. A dreamy summer jewellery piece.</p>
+            <p class="product-price">₹699 <span>₹999</span></p>
+            <div class="product-actions">
+              <button class="btn-cart"
+                onclick="addToCart(this,'Pearl Starfish Bracelet',699,'C:\\Users\\bajaj\\Downloads\\Elegant pearl starfish bracelet perfect for beach outfits and summer aesthetic_ Ocean inspired jewelry idea for girls who love coastal style_.jpg')">Add
+                to Cart</button>
+              <button class="btn-buy" onclick="openOrder('Pearl Starfish Bracelet – ₹699')">Buy Now</button>
+              <button class="wishlist-btn" data-name="Pearl Starfish Bracelet">🤍 </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-img-wrap" style="aspect-ratio:1;">
+            <button class="wishlist-btn" onclick="toggleWishlist(this)">🤍</button>
+            <img src="https://m.media-amazon.com/images/I/91r7inFBVwL._AC_UY1100_.jpg" alt="Mini Teddy Bag Charm">
+          </div>
+          <div class="product-info">
+            <p class="product-name">Mini Teddy Bag Charm</p>
+            <p class="product-desc">Irresistibly cute mini teddy bear bag charm in soft plush fabric. Attaches to any
+              bag handle or zip. A sweet and playful accessory for your everyday carry.</p>
+            <p class="product-price">₹449 <span>₹649</span></p>
+            <div class="product-actions">
+              <button class="btn-cart"
+                onclick="addToCart(this,'Mini Teddy Bag Charm',449,'C:\\Users\\bajaj\\Downloads\\download (22).jpg')">Add
+                to Cart</button>
+              <button class="btn-buy" onclick="openOrder('Mini Teddy Bag Charm – ₹449')">Buy Now</button>
+              <button class="wishlist-btn" data-name="Mini Teddy Bag Charm">🤍</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-img-wrap" style="aspect-ratio:1;">
+            <span class="product-badge">Floral</span>
+            <button class="wishlist-btn" onclick="toggleWishlist(this)">🤍</button>
+            <img src="https://images.meesho.com/images/products/581852801/gik1h_512.webp?width=512"
+              alt="Floral Phone Charm">
+          </div>
+          <div class="product-info">
+            <p class="product-name">Floral Phone Charm</p>
+            <p class="product-desc">Gorgeous floral phone chain charm with delicate beaded flowers and a gold clasp.
+              Loops around your phone case for an aesthetic and functional accessory upgrade.</p>
+            <p class="product-price">₹549 <span>₹799</span></p>
+            <div class="product-actions">
+              <button class="btn-cart"
+                onclick="addToCart(this,'Floral Phone Charm',549,'C:\\Users\\bajaj\\Downloads\\જ⁀➴ ♡.jpg')">Add to
+                Cart</button>
+              <button class="btn-buy" onclick="openOrder('Floral Phone Charm – ₹549')">Buy Now</button>
+              <button class="wishlist-btn" data-name="Floral Phone Charm">🤍</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-img-wrap" style="aspect-ratio:1;">
+            <span class="product-badge gold">Jelly</span>
+            <button class="wishlist-btn" onclick="toggleWishlist(this)">🤍</button>
+            <img
+              src="https://img.ltwebstatic.com/v4/j/spmp/2025/10/18/ba/176075641207300b6ba2a54c4ff1d2ccb6211433c5_thumbnail_750x999.webp"
+              alt="Jelly Bead Bracelet">
+          </div>
+          <div class="product-info">
+            <p class="product-name">Jelly Bead Bracelet</p>
+            <p class="product-desc">Fun and colourful jelly bead bracelet set with fruit and star shaped charms.
+              Stretchy and adjustable — great for stacking or gifting to your bestie!</p>
+            <p class="product-price">₹349 <span>₹499</span></p>
+            <div class="product-actions">
+              <button class="btn-cart"
+                onclick="addToCart(this,'Jelly Bead Bracelet',349,'C:\\Users\\bajaj\\Downloads\\download (21).jpg')">Add
+                to Cart</button>
+              <button class="btn-buy" onclick="openOrder('Jelly Bead Bracelet – ₹349')">Buy Now</button>
+              <button class="wishlist-btn" data-name="Jelly Bead Bracelet">🤍</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-img-wrap" style="aspect-ratio:1;">
+            <button class="wishlist-btn" onclick="toggleWishlist(this)">🤍</button>
+            <img src="https://i.pinimg.com/736x/59/fe/cf/59fecfdbab3d93e1c201ab40c779018c.jpg"
+              alt="Brown Aesthetic Keychain">
+          </div>
+          <div class="product-info">
+            <p class="product-name">Raisin Keychain</p>
+            <p class="product-desc">Pretty brown aesthetic keychain with a boho leather tassel and mini charm details.
+              Earthy tones that complement any brown or neutral bag perfectly.</p>
+            <p class="product-price">₹299 <span>₹449</span></p>
+            <div class="product-actions">
+              <button class="btn-cart"
+                onclick="addToCart(this,'Brown Aesthetic Keychain',299,'C:\\Users\\bajaj\\Downloads\\PRETTY KEYCHAIN BROWN.jpg')">Add
+                to Cart</button>
+              <button class="btn-buy" onclick="openOrder('Brown Aesthetic Keychain – ₹299')">Buy Now</button>
+              <button class="wishlist-btn" data-name="Brown Aesthetic Keychain">🤍</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-img-wrap" style="aspect-ratio:1;">
+            <span class="product-badge">Star</span>
+            <button class="wishlist-btn" onclick="toggleWishlist(this)">🤍</button>
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWhnWASoNwGqm2GZ-K4ZqIq08F5mg_p5PqEpeJL1pIQUhg_TzL"
+              alt="Star & Moon Charm Set">
+          </div>
+          <div class="product-info">
+            <p class="product-name">Star &amp; Moon Charm Set</p>
+            <p class="product-desc">Celestial star and moon charm set in silver with a glossy enamel finish. Includes 3
+              charms — wear as earrings, add to a bracelet or hang on your bag.</p>
+            <p class="product-price">₹499 <span>₹749</span></p>
+            <div class="product-actions">
+              <button class="btn-cart"
+                onclick="addToCart(this,'Star & Moon Charm Set',499,'C:\\Users\\bajaj\\Downloads\\download (24).jpg')">Add
+                to Cart</button>
+              <button class="btn-buy" onclick="openOrder('Star & Moon Charm Set – ₹499')">Buy Now</button>
+              <button class="wishlist-btn" data-name="Star & Moon Charm Set">🤍</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-img-wrap" style="aspect-ratio:1;">
+            <span class="product-badge gold">BFF</span>
+            <button class="wishlist-btn" onclick="toggleWishlist(this)">🤍</button>
+            <img
+              src="https://cdn.shopify.com/s/files/1/0150/8625/6182/files/PurpleSnowflakeSparklingBeadedPhoneCharm1_550x.jpg?v=1755245863"
+              alt="BFF Heart Locket Charm">
+          </div>
+          <div class="product-info">
+            <p class="product-name">BFF Heart Locket Charm</p>
+            <p class="product-desc">Sweet heart-shaped locket charm for best friends! Opens to reveal a tiny photo slot.
+              Gold plated finish with a secure lobster clasp — the perfect friendship gift.</p>
+            <p class="product-price">₹599 <span>₹899</span></p>
+            <div class="product-actions">
+              <button class="btn-cart"
+                onclick="addToCart(this,'BFF Heart Locket Charm',599,'C:\\Users\\bajaj\\Downloads\\download (20).jpg')">Add
+                to Cart</button>
+              <button class="btn-buy" onclick="openOrder('BFF Heart Locket Charm – ₹599')">Buy Now</button>
+              <button class="wishlist-btn" data-name="BFF Heart Locket Charm">🤍</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-img-wrap" style="aspect-ratio:1;">
+            <button class="wishlist-btn" onclick="toggleWishlist(this)">🤍</button>
+            <img src="https://i.pinimg.com/236x/b5/85/59/b585595ea9cd8f15aa186b8a18d91619.jpg"
+              alt="Mini Teddy Bag Charm">
+          </div>
+          <div class="product-info">
+            <p class="product-name">Customized Painting Keychains</p>
+            <p class="product-desc">Irresistibly cute mini teddy bear bag charm in soft plush fabric. Attaches to any
+              bag handle or zip. A sweet and playful accessory for your everyday carry.</p>
+            <p class="product-price">₹449 <span>₹649</span></p>
+            <div class="product-actions">
+              <button class="btn-cart"
+                onclick="addToCart(this,'Customized Painting Keychains',449,'C:\\Users\\bajaj\\Downloads\\download (22).jpg')">Add
+                to Cart</button>
+              <button class="btn-buy" onclick="openOrder('Customized Painting Keychains – ₹449')">Buy Now</button>
+              <button class="wishlist-btn" data-name="Customized Painting Keychains">🤍</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-img-wrap" style="aspect-ratio:1;">
+            <button class="wishlist-btn" onclick="toggleWishlist(this)">🤍</button>
+            <img src="https://i.pinimg.com/1200x/d8/e5/8b/d8e58bd5e22c815220c9d9ad7cdb98b9.jpg"
+              alt="Mini Teddy Bag Charm">
+          </div>
+          <div class="product-info">
+            <p class="product-name">Pattern Painted Keychains</p>
+            <p class="product-desc">Irresistibly cute mini teddy bear bag charm in soft plush fabric. Attaches to any
+              bag handle or zip. A sweet and playful accessory for your everyday carry.</p>
+            <p class="product-price">₹449 <span>₹649</span></p>
+            <div class="product-actions">
+              <button class="btn-cart"
+                onclick="addToCart(this,'Pattern Painted Keychains',449,'C:\\Users\\bajaj\\Downloads\\download (22).jpg')">Add
+                to Cart</button>
+              <button class="btn-buy" onclick="openOrder('Pattern Painted Keychains– ₹449')">Buy Now</button>
+              <button class="wishlist-btn" data-name="Pattern Painted Keychains">🤍</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CUSTOMER REVIEWS ===================== -->
+  <section id="reviews" style="background:linear-gradient(135deg,#fdf6f0,#fce8ef);padding:80px 40px;">
+    <div style="max-width:1100px;margin:0 auto;">
+
+      <!-- Section Header -->
+      <div class="section-header">
+        <span class="section-tag">✦ Real Girls, Real Love ✦</span>
+        <h2 class="section-title">Customer <em>Reviews</em></h2>
+        <div class="section-divider"></div>
+      </div>
+
+      <!-- Overall Rating Bar -->
+      <div class="rating-summary">
+        <div class="rating-big">4.8</div>
+        <div>
+          <div class="stars-big">★★★★★</div>
+          <p style="font-size:.8rem;color:var(--grey);margin-top:4px;letter-spacing:1px;">Based on <span
+              id="totalReviewCount">5</span> reviews</p>
+        </div>
+      </div>
+
+      <!-- Existing Review Cards -->
+      <div class="reviews-grid" id="reviewsGrid">
+
+        <div class="review-card">
+          <div class="review-top">
+            <div class="reviewer-avatar">P</div>
+            <div>
+              <p class="reviewer-name">Priya Sharma</p>
+              <p class="reviewer-location">Delhi, India</p>
+            </div>
+            <div class="review-stars">★★★★★</div>
+          </div>
+          <p class="review-product">Floral Wrap Dress</p>
+          <p class="review-text">"Absolutely obsessed with this dress! The quality is so much better than I expected.
+            Got so many compliments at college. Shipping was super fast too. Will definitely order again 💕"</p>
+          <p class="review-date">April 2026</p>
+        </div>
+
+        <div class="review-card">
+          <div class="review-top">
+            <div class="reviewer-avatar" style="background:linear-gradient(135deg,var(--gold),#b8904a);">A</div>
+            <div>
+              <p class="reviewer-name">Ananya Gupta</p>
+              <p class="reviewer-location">Mumbai, India</p>
+            </div>
+            <div class="review-stars">★★★★★</div>
+          </div>
+          <p class="review-product">Gold Hoop Earrings</p>
+          <p class="review-text">"These earrings are SO pretty in real life! The gold tone is very elegant and they are
+            lightweight, so no ear pain even after wearing all day. Packaging was also very cute 🌸"</p>
+          <p class="review-date">March 2026</p>
+        </div>
+
+        <div class="review-card">
+          <div class="review-top">
+            <div class="reviewer-avatar" style="background:linear-gradient(135deg,#c084b4,#a05090);">S</div>
+            <div>
+              <p class="reviewer-name">Sneha Jain</p>
+              <p class="reviewer-location">Jaipur, India</p>
+            </div>
+            <div class="review-stars">★★★★☆</div>
+          </div>
+          <p class="review-product">Y2K Baggy Cargo Jeans</p>
+          <p class="review-text">"Loved the style and fit! Very trendy and exactly like the pictures. Sizing was a tiny
+            bit large so I'd suggest going one size down. But overall I'm happy with my purchase 😊"</p>
+          <p class="review-date">March 2026</p>
+        </div>
+
+        <div class="review-card">
+          <div class="review-top">
+            <div class="reviewer-avatar" style="background:linear-gradient(135deg,#84c4a0,#5aaa80);">R</div>
+            <div>
+              <p class="reviewer-name">Riya Mehta</p>
+              <p class="reviewer-location">Pune, India</p>
+            </div>
+            <div class="review-stars">★★★★★</div>
+          </div>
+          <p class="review-product">Pearl Starfish Bracelet</p>
+          <p class="review-text">"Such a dainty and pretty bracelet! It looks exactly like the photo and feels very high
+            quality. I gifted it to my best friend and she absolutely loved it. Great packaging too! ✨"</p>
+          <p class="review-date">February 2026</p>
+        </div>
+
+        <div class="review-card">
+          <div class="review-top">
+            <div class="reviewer-avatar" style="background:linear-gradient(135deg,#e8a060,#c07830);">K</div>
+            <div>
+              <p class="reviewer-name">Kavya Reddy</p>
+              <p class="reviewer-location">Hyderabad, India</p>
+            </div>
+            <div class="review-stars">★★★★★</div>
+          </div>
+          <p class="review-product">Satin Evening Gown</p>
+          <p class="review-text">"Wore this to my college farewell and everyone was asking where I bought it from! The
+            satin fabric is so luxurious and the fit was perfect. LuxeLoom never disappoints 💎"</p>
+          <p class="review-date">January 2026</p>
+        </div>
+
+      </div>
+
+      <!-- Write a Review Button -->
+      <div style="text-align:center;margin-top:40px;">
+        <button class="hero-btn" onclick="openReviewForm()" style="font-family:'DM Sans',sans-serif;">Write a Review
+          🌸</button>
+      </div>
+
+    </div>
+  </section>
+
+
+
+
+  <!-- ── REVIEW FORM MODAL ─────────────────────────────────── -->
+  <div class="modal-overlay" id="reviewModal">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('reviewModal')">✕</button>
+
+      <!-- The form (shown first) -->
+      <div id="reviewFormDiv">
+        <h2>Share Your Experience ✨</h2>
+        <p class="modal-product-name">We'd love to hear from you!</p>
+
+        <label>Your Name</label>
+        <input type="text" id="rvName" placeholder="e.g. Priya S." />
+
+        <label>Your City</label>
+        <input type="text" id="rvCity" placeholder="e.g. Delhi" />
+
+        <label>Product You Bought</label>
+        <input type="text" id="rvProduct" placeholder="e.g. Floral Wrap Dress" />
+
+        <label>Your Rating</label>
+        <!-- Star rating — clicking a star selects it -->
+        <div class="star-picker" id="starPicker">
+          <span onclick="pickStar(1)">☆</span>
+          <span onclick="pickStar(2)">☆</span>
+          <span onclick="pickStar(3)">☆</span>
+          <span onclick="pickStar(4)">☆</span>
+          <span onclick="pickStar(5)">☆</span>
+        </div>
+        <!-- Hidden input to store chosen rating number -->
+        <input type="hidden" id="rvRating" value="0" />
+
+        <label>Your Review</label>
+        <textarea id="rvText" placeholder="Tell us about your experience... 💕" style="width:100%;padding:10px 14px;border:1.5px solid #e8d5dc;border-radius:10px;
+               font-size:.9rem;font-family:'DM Sans',sans-serif;color:var(--dark);
+               outline:none;resize:vertical;min-height:90px;transition:border-color .2s;"
+          onfocus="this.style.borderColor='var(--rose)'" onblur="this.style.borderColor='#e8d5dc'"></textarea>
+
+        <button class="modal-btn" onclick="submitReview()">Submit Review 🌸</button>
+      </div>
+
+      <!-- Success message (shown after submit) -->
+      <div class="success-msg" id="reviewSuccess">
+        <div class="check">💕</div>
+        <h3>Thank You!</h3>
+        <p>Your review has been added.<br />You're a LuxeLoom star! ⭐</p>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- CONTACT + T&C -->
+  <section style="background:linear-gradient(135deg,#fff8fb,#fdf6f0);padding:70px 40px;">
+    <div style="max-width:900px;margin:0 auto;">
+      <div style="text-align:center;margin-bottom:60px;">
+        <span
+          style="display:inline-block;font-family:'Cormorant Garamond',serif;font-size:.8rem;letter-spacing:4px;text-transform:uppercase;color:var(--gold);font-style:italic;padding:4px 16px;border:1px solid rgba(201,169,110,.4);border-radius:20px;margin-bottom:12px;">✦
+          Reach Out ✦</span>
+        <h2
+          style="font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.5vw,2.5rem);color:var(--dark);font-weight:700;margin-bottom:6px;">
+          Contact <em style="color:var(--rose);font-style:italic;">Us</em></h2>
+        <div
+          style="width:60px;height:2px;background:linear-gradient(to right,var(--pink),var(--gold));margin:12px auto 28px;border-radius:2px;">
+        </div>
+        <div
+          style="display:inline-flex;flex-direction:column;align-items:center;gap:18px;background:white;padding:36px 60px;border-radius:24px;box-shadow:0 8px 30px rgba(42,26,31,.08);">
+          <div style="font-size:2.5rem;">🌸</div>
+          <p style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--dark);">Mokshika
+            Bajaj</p>
+          <p style="font-size:.85rem;color:var(--grey);letter-spacing:1px;">Founder & Curator, LuxeLoom</p>
+          <a href="tel:8168377236"
+            style="display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--rose),#d4607e);color:white;padding:13px 32px;border-radius:50px;text-decoration:none;font-size:.85rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;box-shadow:0 6px 20px rgba(232,130,154,.35);">📞
+            &nbsp;8168377236</a>
+          <a href="mailto:luxeloom@gmail.com"
+            style="font-size:.83rem;color:var(--rose);text-decoration:none;font-style:italic;">✉️ luxeloom@gmail.com</a>
+        </div>
+      </div>
+      <div>
+        <div style="text-align:center;margin-bottom:32px;">
+          <span
+            style="display:inline-block;font-family:'Cormorant Garamond',serif;font-size:.8rem;letter-spacing:4px;text-transform:uppercase;color:var(--gold);font-style:italic;padding:4px 16px;border:1px solid rgba(201,169,110,.4);border-radius:20px;margin-bottom:12px;">✦
+            Please Read ✦</span>
+          <h2
+            style="font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.5vw,2.5rem);color:var(--dark);font-weight:700;">
+            Terms &amp; <em style="color:var(--rose);font-style:italic;">Conditions</em></h2>
+          <div
+            style="width:60px;height:2px;background:linear-gradient(to right,var(--pink),var(--gold));margin:12px auto 0;border-radius:2px;">
+          </div>
+        </div>
+        <div
+          style="background:white;border-radius:24px;padding:40px;box-shadow:0 8px 30px rgba(42,26,31,.06);display:grid;gap:22px;">
+          <div style="border-left:3px solid var(--pink);padding-left:18px;">
+            <p style="font-family:'Playfair Display',serif;font-weight:600;color:var(--dark);margin-bottom:6px;">1.
+              Orders & Payments</p>
+            <p style="font-size:.83rem;color:var(--grey);line-height:1.7;">All orders are confirmed only after
+              successful payment. We accept UPI, Credit/Debit Cards, Net Banking, and Cash on Delivery (COD available on
+              orders above ₹499). Prices are inclusive of applicable taxes.</p>
+          </div>
+          <div style="border-left:3px solid var(--rose);padding-left:18px;">
+            <p style="font-family:'Playfair Display',serif;font-weight:600;color:var(--dark);margin-bottom:6px;">2.
+              Shipping & Delivery</p>
+            <p style="font-size:.83rem;color:var(--grey);line-height:1.7;">Standard delivery takes 3–7 business days.
+              Free shipping on orders above ₹2,500. Expedited shipping available at extra charge. LuxeLoom is not
+              responsible for delays by courier partners.</p>
+          </div>
+          <div style="border-left:3px solid var(--gold);padding-left:18px;">
+            <p style="font-family:'Playfair Display',serif;font-weight:600;color:var(--dark);margin-bottom:6px;">3.
+              Returns & Exchanges</p>
+            <p style="font-size:.83rem;color:var(--grey);line-height:1.7;">Returns accepted within 7 days of delivery
+              for unused, unwashed items with original tags. Charms & sale items are non-returnable. Contact us with
+              order ID and unboxing proof to initiate return.</p>
+          </div>
+          <div style="border-left:3px solid #b8e4d0;padding-left:18px;">
+            <p style="font-family:'Playfair Display',serif;font-weight:600;color:var(--dark);margin-bottom:6px;">4.
+              Sizing & Fit</p>
+            <p style="font-size:.83rem;color:var(--grey);line-height:1.7;">Sizing may vary slightly between products.
+              Minor colour variation may occur due to screen settings and photography lighting. LuxeLoom is not liable
+              for fit issues if incorrect size was selected at checkout.</p>
+          </div>
+          <div style="border-left:3px solid var(--pink);padding-left:18px;">
+            <p style="font-family:'Playfair Display',serif;font-weight:600;color:var(--dark);margin-bottom:6px;">5.
+              Cancellations</p>
+            <p style="font-size:.83rem;color:var(--grey);line-height:1.7;">Orders can be cancelled within 12 hours of
+              placement. Once dispatched, cancellations will not be accepted. Refunds for prepaid cancelled orders will
+              be processed within 5–7 business days.</p>
+          </div>
+          <div style="border-left:3px solid var(--rose);padding-left:18px;">
+            <p style="font-family:'Playfair Display',serif;font-weight:600;color:var(--dark);margin-bottom:6px;">6.
+              Privacy Policy</p>
+            <p style="font-size:.83rem;color:var(--grey);line-height:1.7;">Your personal information is collected solely
+              for order fulfilment. We do not share your data with third parties for marketing. By placing an order, you
+              consent to our data practices.</p>
+          </div>
+          <div style="border-left:3px solid var(--gold);padding-left:18px;">
+            <p style="font-family:'Playfair Display',serif;font-weight:600;color:var(--dark);margin-bottom:6px;">7.
+              Intellectual Property</p>
+            <p style="font-size:.83rem;color:var(--grey);line-height:1.7;">All content on LuxeLoom — including product
+              images, descriptions, logos and design — is the intellectual property of LuxeLoom. Unauthorised
+              reproduction or use is strictly prohibited.</p>
+          </div>
+          <div style="background:var(--blush);border-radius:14px;padding:18px 22px;text-align:center;">
+            <p style="font-size:.8rem;color:var(--grey);font-style:italic;">By placing an order on LuxeLoom, you agree
+              to all the above Terms & Conditions. For queries, contact <strong style="color:var(--rose);">Mokshika
+                Bajaj</strong> at <strong style="color:var(--rose);">8168377236</strong>. 🌸
+              <strong style="color:var(--rose);">Mahima Singla</strong> at <strong
+                style="color:var(--rose);">7888742467</strong>. 🌸
+              <strong style="color:var(--rose);">Vrinda Sharma</strong> at <strong
+                style="color:var(--rose);">9646651717</strong>. 🌸
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+
+
+
+  <footer>
+
+
+
+    <div class="footer-container">
+      <!-- Top Columns -->
+      <div class="footer-column">
+        <h3>Get to Know Us</h3>
+        <a href="#">About LuxeLoom</a>
+        <a href="#">Careers</a>
+        <a href="#">Press & Media</a>
+        <a href="#">Our Story ✨</a>
+      </div>
+
+      <div class="footer-column">
+        <h3>Connect with Us</h3>
+        <a href="#">Instagram 🌸</a>
+        <a href="#">Pinterest 💖</a>
+        <a href="#">YouTube 🎥</a>
+        <a href="#">WhatsApp Support 📱</a>
+      </div>
+
+      <div class="footer-column">
+        <h3>Make Money with Us</h3>
+        <a href="#">Sell on LuxeLoom 🚀</a>
+        <a href="#">Partner Program</a>
+        <a href="#">Affiliate Opportunities</a>
+        <a href="#">Advertise Your Brand</a>
+      </div>
+
+      <div class="footer-column">
+        <h3>Let Us Help You</h3>
+        <a href="#">Your Account</a>
+        <a href="#">Orders & Returns</a>
+        <a href="#">Shipping Info</a>
+        <a href="#">LuxeCare Support</a>
+        <a href="#">FAQs</a>
+      </div>
+    </div>
+
+
+    <!-- Middle Row: LuxeLoom Services -->
+    <div class="footer-services">
+      <div><strong>LuxeBox 🎁</strong><br>Surprise fashion drops</div>
+      <div><strong>LuxeTrend Meter ✨</strong><br>Live fashion buzz</div>
+      <div><strong>LuxeBuilder 👗</strong><br>Create your outfit canvas</div>
+      <div><strong>LuxeCare 💕</strong><br>Premium customer support</div>
+
+
+    </div>
+    <div class="footer-middle">
+      <p class="footer-logo">Luxe<span>Loom</span></p>
+
+      <div class="footer-selectors">
+        <select class="footer-select">
+          <option>🌐 English</option>
+          <option>हिंदी</option>
+        </select>
+
+        <select class="footer-select">
+          <option>🇮🇳 India</option>
+          <option>🇺🇸 USA</option>
+          <option>🇬🇧 UK</option>
+        </select>
+      </div>
+    </div>
+
+
+    <br>
+    <div class="footer-bottom">
+      <p>© 2026 LuxeLoom – Shine in Style 💖</p>
+      <a href="#">Conditions of Use</a>
+      <a href="#">Privacy Notice</a>
+      <a href="#">Interest-Based Ads</a>
+    </div>
+    </div>
+  </footer>
+  <script src="lastpro.js"> </script>
+</body>
+
+</html>
